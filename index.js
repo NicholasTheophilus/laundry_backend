@@ -11,11 +11,11 @@ const usersRoutes = require('./routes/users');
 
 app.use(express.json());
 
-app.use('/laundries', laundriesRoutes);
-app.use('/migrations', migrationsRoutes);
-app.use('/orders', ordersRoutes);
-app.use('/services', servicesRoutes);
-app.use('/users', usersRoutes);
+app.use('/api/laundries', laundriesRoutes);
+app.use('/api/migrations', migrationsRoutes);
+app.use('/api/orders', ordersRoutes);
+app.use('/api/services', servicesRoutes);
+app.use('/api/users', usersRoutes);
 
 models.sequelize.sync().then(() => {
   app.listen(process.env.PORT, () => {
