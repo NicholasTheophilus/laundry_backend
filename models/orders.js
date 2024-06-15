@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Order = sequelize.define('Order', {
       id: {
-        type: DataTypes.BIGINT.UNSIGNED,
+        type: DataTypes.BIGSERIAL,
         primaryKey: true,
         autoIncrement: true,
       },
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       service_id: {
-        type: DataTypes.BIGINT.UNSIGNED,
+        type: DataTypes.BIGSERIAL,
         allowNull: false,
       },
       quantity: {

@@ -1,3 +1,5 @@
+// index.js
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const models = require('./models');
@@ -16,7 +18,7 @@ app.use('/services', servicesRoutes);
 app.use('/users', usersRoutes);
 
 models.sequelize.sync().then(() => {
-  app.listen(3000, () => {
+  app.listen(process.env.PORT, () => {
     console.log('Server is running on port 3000');
   });
 }).catch((error) => {

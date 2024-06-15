@@ -1,5 +1,6 @@
+// models/index.js
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Mengimpor sequelize dari database.js
+const { sequelize } = require('../config/database'); // Importing sequelize from database.js
 
 const models = {
   Laundry: require('./laundries')(sequelize, DataTypes),

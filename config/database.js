@@ -1,12 +1,27 @@
+// config/database.js
+require('dotenv').config();
 const { Sequelize } = require('sequelize');
+const pg = require('pg');
 
-const sequelize = new Sequelize('wazhwiz', 'root', '', { // Kosongkan string password
-  host: '127.0.0.1',
-  dialect: 'mysql',
-  logging: false, // Nonaktifkan logging jika tidak diperlukan
-  define: {
-    timestamps: false, // Nonaktifkan otomatis timestamps jika tidak diperlukan
-  },
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL + '?sslmode=require',
 });
 
-module.exports = sequelize;
+pool.connect((err) => {
+  if (err) {
+    console.error('Connection error', err.stack);
+  } else {
+    console.log('Connected to PostgreSQL successfully');
+  }
+});
+
+// Sequelize instance
+const sequelize = new Sequelize(process.env.POSTGRES_URL, {
+  dialect: 'postgres',
+  dialectModule: pg,
+  logging: false, // Disable logging; default: console.log
+});
+
+module.exports = { sequelize, pool };
