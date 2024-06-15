@@ -33,6 +33,27 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: true,
       },
+      pickup_date: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      pickup_time: {
+        type: DataTypes.TIME,
+        allowNull: true,
+      },
+      payment_method: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      payment_details: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      payment_status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'pending',
+      }
     }, {
       tableName: 'orders',
       timestamps: false,
