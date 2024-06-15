@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Laundry = sequelize.define('Laundry', {
       id: {
-        type: DataTypes.BIGSERIAL,
+        type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
       },

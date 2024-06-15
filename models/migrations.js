@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Migration = sequelize.define('Migration', {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
       },

@@ -1,6 +1,6 @@
 // config/database.js
 require('dotenv').config();
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const pg = require('pg');
 
 const { Pool } = pg;
@@ -24,4 +24,4 @@ const sequelize = new Sequelize(process.env.POSTGRES_URL, {
   logging: false, // Disable logging; default: console.log
 });
 
-module.exports = { sequelize, pool };
+module.exports = { sequelize, pool, DataTypes };
