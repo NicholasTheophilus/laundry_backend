@@ -5,13 +5,7 @@
         "source": "/(.*)",
         "destination": "/api"
       }
-    ],
-    "functions": {
-    "api/routes/*": {
-      "maxDuration": 60,  
-      "memory": 256   
-    }
-  }
+    ]
   }
   
   
