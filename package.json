@@ -23,6 +23,7 @@
     "pg-hstore": "^2.3.4",
     "postgres-pool": "^8.1.6",
     "postgresql": "0.0.1",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "serverless-http": "^3.2.0"
   }
 }
