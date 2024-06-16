@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const laundriesController = require('../controllers/laundriesController');
+const laundriesController = require('../../controllers/laundriesController');
 
 router.get('/', laundriesController.getAllLaundries);
 router.get('/:id', laundriesController.getLaundryById);

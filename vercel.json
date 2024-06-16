@@ -7,7 +7,7 @@
       }
     ],
     "functions": {
-    "routes/*": {
+    "api/routes/*": {
       "maxDuration": 60,  
       "memory": 256   
     }
