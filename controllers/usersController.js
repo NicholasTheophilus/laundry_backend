@@ -67,23 +67,24 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-exports.loginUser = async (req) => {
+exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ where: { email } });
+    // const user = await User.findOne({ where: { email } });
+    res.status(200).json({ email, password });
 
-    if (!user) {
-      return { statusCode: 404, body: JSON.stringify({ error: 'User not found' }) };
-    }
+  //   if (!user) {
+  //     return { statusCode: 404, body: JSON.stringify({ error: 'User not found' }) };
+  //   }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return { statusCode: 401, body: JSON.stringify({ error: 'Invalid password' }) };
-    }
+  //   const isPasswordValid = await bcrypt.compare(password, user.password);
+  //   if (!isPasswordValid) {
+  //     return { statusCode: 401, body: JSON.stringify({ error: 'Invalid password' }) };
+  //   }
 
-    const token = jwt.sign({ id: user.id, email: user.email }, jwtSecret, { expiresIn: '1h' });
+  //   const token = jwt.sign({ id: user.id, email: user.email }, jwtSecret, { expiresIn: '1h' });
 
-    return { statusCode: 200, body: JSON.stringify({ token }) };
+    // return { statusCode: 200, body: JSON.stringify({ token }) };
   } catch (error) {
     return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
   }
