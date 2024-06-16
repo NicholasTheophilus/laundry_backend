@@ -1,9 +1,9 @@
 const { User } = require('../models');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const jwtSecret = process.env.JWT_SECRET;
+// const jwtSecret = process.env.JWT_SECRET;
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -69,9 +69,11 @@ exports.deleteUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   try {
-    // const { email, password } = req.body;
+    const { email, password } = req.body;
+    console.log(typeof req.body);
     // const user = await User.findOne({ where: { email } });
-    res.status(200).json({ email: 'test', password: 'test' });
+    console.log(req.body);
+    res.status(200).json({ email: email, password: password});
 
   //   if (!user) {
   //     return { statusCode: 404, body: JSON.stringify({ error: 'User not found' }) };
