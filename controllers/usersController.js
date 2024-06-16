@@ -1,4 +1,17 @@
 const { User } = require('../models');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+// const crypto = require('crypto');
+
+// const generateJwtSecret = () => {
+//   return crypto.randomBytes(32).toString('hex');
+// };
+
+// const Secret = generateJwtSecret();
+
+// Tambahkan secret key untuk JWT
+const jwtSecret = process.env.JWT_SECRET; // Ganti dengan secret key Anda sendiri
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -24,7 +37,9 @@ exports.getUserById = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const user = await User.create(req.body);
+    // Hash password sebelum menyimpan user
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = await User.create({ ...req.body, password: hashedPassword });
     res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -57,6 +72,30 @@ exports.deleteUser = async (req, res) => {
     } else {
       res.status(404).json({ error: 'User not found' });
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Periksa password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid password' });
+    }
+
+    // Buat token JWT
+    const token = jwt.sign({ id: user.id, email: user.email }, jwtSecret, { expiresIn: '1h' });
+
+    res.json({ token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
