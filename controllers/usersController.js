@@ -1,9 +1,9 @@
 const { User } = require('../models');
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-// const jwtSecret = process.env.JWT_SECRET;
+const jwtSecret = process.env.JWT_SECRET;
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -70,23 +70,23 @@ exports.deleteUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(typeof req.body);
-    // const user = await User.findOne({ where: { email } });
-    console.log(req.body);
+    // console.log(typeof req.body);
+    const user = await User.findOne({ where: { email } });
+    // console.log(req.body);
     res.status(200).json({ email: email, password: password});
 
-  //   if (!user) {
-  //     return { statusCode: 404, body: JSON.stringify({ error: 'User not found' }) };
-  //   }
+    if (!user) {
+      return { statusCode: 404, body: JSON.stringify({ error: 'User not found' }) };
+    }
 
-  //   const isPasswordValid = await bcrypt.compare(password, user.password);
-  //   if (!isPasswordValid) {
-  //     return { statusCode: 401, body: JSON.stringify({ error: 'Invalid password' }) };
-  //   }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return { statusCode: 401, body: JSON.stringify({ error: 'Invalid password' }) };
+    }
 
-  //   const token = jwt.sign({ id: user.id, email: user.email }, jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id, email: user.email }, jwtSecret, { expiresIn: '1h' });
 
-    // return { statusCode: 200, body: JSON.stringify({ token }) };
+    return { statusCode: 200, body: JSON.stringify({ token }) };
   } catch (error) {
     return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
   }
