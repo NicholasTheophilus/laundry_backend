@@ -69,9 +69,9 @@ exports.deleteUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    // const { email, password } = req.body;
     // const user = await User.findOne({ where: { email } });
-    res.status(200).json({ email, password });
+    res.status(200).json({ email: 'test', password: 'test' });
 
   //   if (!user) {
   //     return { statusCode: 404, body: JSON.stringify({ error: 'User not found' }) };
