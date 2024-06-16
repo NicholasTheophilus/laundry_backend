@@ -29,7 +29,18 @@ exports.getUserById = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const user = await User.create(req.body);
+    const { name, email, password } = req.body;
+
+    // Hash password menggunakan bcrypt
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Membuat user baru dengan password yang telah di-hash
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
     res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
