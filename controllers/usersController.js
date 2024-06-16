@@ -73,7 +73,7 @@ exports.loginUser = async (req, res) => {
     // console.log(typeof req.body);
     const user = await User.findOne({ where: { email } });
     // console.log(req.body);
-    res.status(200).json({ email: email, password: password});
+    // res.status(200).json({ email: email, password: password});
 
     if (!user) {
       return { statusCode: 404, body: JSON.stringify({ error: 'User not found' }) };
