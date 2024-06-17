@@ -23,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
     },
+    location: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    distance: {
+      type: DataTypes.DOUBLE,
+      allowNull: true,
+    },
   }, {
     tableName: 'laundries',
     timestamps: false,
