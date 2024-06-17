@@ -1,5 +1,4 @@
 const { Laundry } = require('../models');
-const { calculateDistance } = require('../utils');
 
 exports.getAllLaundries = async (req, res) => {
   try {
@@ -33,33 +32,13 @@ exports.createLaundry = async (req, res) => {
 };
 
 exports.updateLaundry = async (req, res) => {
-  const { id } = req.params;
-  const { userLatitude, userLongitude } = req.body;
-
   try {
     const [updated] = await Laundry.update(req.body, {
-      where: { id: id },
+      where: { id: req.params.id },
     });
-
     if (updated) {
-      // Ambil data laundry yang telah diperbarui
-      const updatedLaundry = await Laundry.findByPk(id);
-
-      // Ambil koordinat outlet dari data laundry
-      const [outletLatitude, outletLongitude] = updatedLaundry.location.split(',').map(Number);
-
-      // Hitung jarak antara pengguna dan outlet
-      const distance = calculateDistance(userLatitude, userLongitude, outletLatitude, outletLongitude);
-
-      // Update jarak pada data laundry
-      await Laundry.update({ distance: distance }, {
-        where: { id: id },
-      });
-
-      // Ambil data laundry yang telah diperbarui dengan jarak baru
-      const updatedLaundryWithDistance = await Laundry.findByPk(id);
-
-      res.status(200).json(updatedLaundryWithDistance);
+      const updatedLaundry = await Laundry.findByPk(req.params.id);
+      res.status(200).json(updatedLaundry);
     } else {
       res.status(404).json({ error: 'Laundry not found' });
     }
