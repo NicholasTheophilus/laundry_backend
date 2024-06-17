@@ -28,6 +28,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
     },
+    role: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      defaultValue: 'user'
+    },
   }, {
     tableName: 'users',
     timestamps: false,
