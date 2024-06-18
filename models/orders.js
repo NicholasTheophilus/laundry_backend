@@ -52,9 +52,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     order_id: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.UUID,
       allowNull: true,
       unique: true,
+      defaultValue: sequelize.UUIDV4,
     },
     payment_status: {
       type: DataTypes.STRING(255),
