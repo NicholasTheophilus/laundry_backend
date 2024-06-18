@@ -51,6 +51,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    order_id: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      unique: true,
+    },
     payment_status: {
       type: DataTypes.STRING(255),
       allowNull: true,

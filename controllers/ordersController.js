@@ -1,4 +1,5 @@
 const { Order } = require('../models');
+const { v4: uuidv4 } = require('uuid');
 
 exports.getAllOrders = async (req, res) => {
   try {
@@ -24,7 +25,12 @@ exports.getOrderById = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   try {
-    const order = await Order.create(req.body);
+    const orderData = {
+      order_id: uuidv4(),
+      ...req.body
+    };
+    
+    const order = await Order.create(orderData);
     res.status(201).json(order);
   } catch (error) {
     res.status(500).json({ error: error.message });
