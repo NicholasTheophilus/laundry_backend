@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     payment_status: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       defaultValue: 'pending',
     },
   }, {
