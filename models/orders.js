@@ -7,23 +7,23 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
     },
     address: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
     },
     service_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     total_price: {
       type: DataTypes.DECIMAL(8, 2),
-      allowNull: false,
+      allowNull: true,
     },
     created_at: {
       type: DataTypes.DATE,
