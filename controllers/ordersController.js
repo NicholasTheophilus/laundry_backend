@@ -53,6 +53,8 @@ exports.updateOrder = async (req, res) => {
 
   try {
     const id = req.params.id;
+    console.log('Updating order with id:', id); // Logging untuk memastikan id dibaca dengan benar
+
     if (!id) {
       return res.status(400).json({ error: 'id is required' });
     }
@@ -60,6 +62,7 @@ exports.updateOrder = async (req, res) => {
     const [updated] = await Order.update(req.body, {
       where: { id: id },
     });
+
     if (updated) {
       const updatedOrder = await Order.findOne({ where: { id: id } });
       if (updatedOrder) {
