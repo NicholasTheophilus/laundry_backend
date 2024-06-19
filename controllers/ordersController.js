@@ -41,9 +41,8 @@ exports.createOrder = async (req, res) => {
 const updateOrderSchema = Joi.object({
   paymentMethod: Joi.string().required(),
   paymentStatus: Joi.string().required(),
-  // Tambahkan parameter lain yang diperlukan di sini
+  // Hapus validasi untuk order_id
 });
-
 
 exports.updateOrder = async (req, res) => {
   const { error } = updateOrderSchema.validate(req.body);
