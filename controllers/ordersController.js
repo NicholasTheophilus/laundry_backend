@@ -53,26 +53,34 @@ exports.updateOrder = async (req, res) => {
 
   try {
     const id = req.params.id;
-    console.log('Updating order with id:', id); // Logging untuk memastikan id dibaca dengan benar
 
     if (!id) {
+      console.error('ID order tidak diberikan dalam permintaan');
       return res.status(400).json({ error: 'id is required' });
+    }
+
+    const existingOrder = await Order.findOne({ where: { id: id } });
+    if (!existingOrder) {
+      console.error('Order tidak ditemukan');
+      return res.status(404).json({ error: 'Order not found' });
     }
 
     const [updated] = await Order.update(req.body, {
       where: { id: id },
     });
 
+    console.log('Jumlah baris yang diperbarui:', updated);
+
     if (updated) {
       const updatedOrder = await Order.findOne({ where: { id: id } });
       if (updatedOrder) {
         res.status(200).json(updatedOrder);
       } else {
-        console.error('Order not found with id:', id);
+        console.error('Order tidak ditemukan setelah diperbarui');
         res.status(404).json({ error: 'Order not found' });
       }
     } else {
-      console.error('Order not found with id:', id);
+      console.error('Order tidak dapat diperbarui');
       res.status(404).json({ error: 'Order not found' });
     }
   } catch (error) {
@@ -80,7 +88,6 @@ exports.updateOrder = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 exports.deleteOrder = async (req, res) => {
   try {
     const deleted = await Order.destroy({
