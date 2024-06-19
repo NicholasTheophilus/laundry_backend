@@ -41,10 +41,10 @@ exports.createOrder = async (req, res) => {
 const updateOrderSchema = Joi.object({
   paymentMethod: Joi.string().required(),
   paymentStatus: Joi.string().required(),
-  // Hapus validasi untuk order_id
 });
 
 exports.updateOrder = async (req, res) => {
+  // Validate request body
   const { error } = updateOrderSchema.validate(req.body);
   if (error) {
     console.error('Validation error:', error.details[0].message);
@@ -61,9 +61,7 @@ exports.updateOrder = async (req, res) => {
       where: { order_id: order_id },
     });
     if (updated) {
-      const updatedOrder = await Order.findOne({
-        where: { order_id: order_id },
-      });
+      const updatedOrder = await Order.findOne({ where: { order_id: order_id } });
       if (updatedOrder) {
         res.status(200).json(updatedOrder);
       } else {
@@ -79,7 +77,6 @@ exports.updateOrder = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 exports.deleteOrder = async (req, res) => {
   try {
