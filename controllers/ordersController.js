@@ -40,11 +40,17 @@ exports.createOrder = async (req, res) => {
 exports.updateOrder = async (req, res) => {
   try {
     const [updated] = await Order.update(req.body, {
-      where: { id: req.params.id },
+      where: { order_id: req.params.order_id }, // Menggunakan order_id sebagai kondisi pencarian
     });
     if (updated) {
-      const updatedOrder = await Order.findByPk(req.params.id);
-      res.status(200).json(updatedOrder);
+      const updatedOrder = await Order.findOne({
+        where: { order_id: req.params.order_id }, // Menggunakan order_id sebagai kondisi pencarian
+      });
+      if (updatedOrder) {
+        res.status(200).json(updatedOrder);
+      } else {
+        res.status(404).json({ error: 'Order not found' });
+      }
     } else {
       res.status(404).json({ error: 'Order not found' });
     }
@@ -52,6 +58,7 @@ exports.updateOrder = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 exports.deleteOrder = async (req, res) => {
   try {
