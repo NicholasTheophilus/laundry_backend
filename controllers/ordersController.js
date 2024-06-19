@@ -1,5 +1,6 @@
 const { Order } = require('../models');
 const { v4: uuidv4 } = require('uuid');
+const Joi = require('joi');
 
 exports.getAllOrders = async (req, res) => {
   try {
@@ -37,24 +38,45 @@ exports.createOrder = async (req, res) => {
   }
 };
 
+const updateOrderSchema = Joi.object({
+  paymentMethod: Joi.string().required(),
+  paymentStatus: Joi.string().required(),
+  // Tambahkan parameter lain yang diperlukan di sini
+});
+
+
 exports.updateOrder = async (req, res) => {
+  const { error } = updateOrderSchema.validate(req.body);
+  if (error) {
+    console.error('Validation error:', error.details[0].message);
+    return res.status(400).json({ error: error.details[0].message });
+  }
+
   try {
+    const order_id = req.params.order_id;
+    if (!order_id) {
+      return res.status(400).json({ error: 'order_id is required' });
+    }
+
     const [updated] = await Order.update(req.body, {
-      where: { order_id: req.params.order_id }, // Menggunakan order_id sebagai kondisi pencarian
+      where: { order_id: order_id },
     });
     if (updated) {
       const updatedOrder = await Order.findOne({
-        where: { order_id: req.params.order_id }, // Menggunakan order_id sebagai kondisi pencarian
+        where: { order_id: order_id },
       });
       if (updatedOrder) {
         res.status(200).json(updatedOrder);
       } else {
+        console.error('Order not found with order_id:', order_id);
         res.status(404).json({ error: 'Order not found' });
       }
     } else {
+      console.error('Order not found with order_id:', order_id);
       res.status(404).json({ error: 'Order not found' });
     }
   } catch (error) {
+    console.error('Error updating order:', error.message);
     res.status(500).json({ error: error.message });
   }
 };
