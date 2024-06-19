@@ -52,24 +52,24 @@ exports.updateOrder = async (req, res) => {
   }
 
   try {
-    const order_id = req.params.order_id;
-    if (!order_id) {
-      return res.status(400).json({ error: 'order_id is required' });
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'id is required' });
     }
 
     const [updated] = await Order.update(req.body, {
-      where: { order_id: order_id },
+      where: { id: id },
     });
     if (updated) {
-      const updatedOrder = await Order.findOne({ where: { order_id: order_id } });
+      const updatedOrder = await Order.findOne({ where: { id: id } });
       if (updatedOrder) {
         res.status(200).json(updatedOrder);
       } else {
-        console.error('Order not found with order_id:', order_id);
+        console.error('Order not found with id:', id);
         res.status(404).json({ error: 'Order not found' });
       }
     } else {
-      console.error('Order not found with order_id:', order_id);
+      console.error('Order not found with id:', id);
       res.status(404).json({ error: 'Order not found' });
     }
   } catch (error) {
